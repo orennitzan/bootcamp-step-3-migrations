@@ -31,6 +31,7 @@
     "koa": "^2.6.0",
     "koa-router": "^7.4.0",
     "pg": "^7.6.0",
+    "postgres-migrations": "^2.0.3",
     "request-promise-native": "^1.0.5",
     "semver": "^5.6.0",
     "winston": "^3.1.0"

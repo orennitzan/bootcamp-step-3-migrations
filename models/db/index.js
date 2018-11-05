@@ -1,35 +1,21 @@
-const userCreate = require('./create-user');
-const repositoryCreate = require('./create-repository');
-const contributionCreate = require('./create-contribution');
+const { createDb, migrate } = require("postgres-migrations")
 
-console.log('>>> Executig DB create processes.');
-(async () => {
-    console.log('>>> Executing db create users table.');
-    await userCreate.exec()
-        .then((msg) => {
-            console.log(`>>> ${msg}`);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-
-    console.log('>>> Executing db create repository table.');
-    await repositoryCreate.exec()
-        .then((msg) => {
-            console.log(`>>> ${msg}`);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-
-    console.log('>>> Executing db create contribution table.');
-    await contributionCreate.exec()
-        .then((msg) => {
-            console.log(`>>> ${msg}`);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-})();
-
-
+createDb("risingstack", {
+    defaultDatabase: "risingstack", // optional, default: "postgres"
+    user: "postgres",
+    password: "P123456",
+    host: "localhost",
+    port: 5432,
+})
+    .then(() => migrate({
+        database: "risingstack",
+        user: "postgres",
+        password: "P123456",
+        host: "localhost",
+        port: 5432,
+    }, "./models/db/scripts/")
+    )
+    .then(() => {/* ... */ })
+    .catch((err) => {
+        console.log(err)
+    })
